@@ -11,17 +11,17 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
+  constructor(private readonly prisma: PrismaService) {}
   private userSelect = {
     id: true,
     name: true,
     email: true,
-    password: false,
+    password: true,
     createdAt: true,
     updatedAt: true,
   };
-  constructor(private readonly prisma: PrismaService) {}
-  
   async create(createUserDto: CreateUserDto): Promise<User> {
+
     if (createUserDto.password != createUserDto.password) {
       throw new BadRequestException('As senhas informadas não conferem!');
     }
@@ -29,8 +29,9 @@ export class UserService {
     const data: User = {
       ...createUserDto,
       password: await bcrypt.hash(createUserDto.password, 10),
+      id: 'id',
     };
-    return this.prisma.user
+    return this.prisma.User
       .create({
         data,
         select: this.delete,
