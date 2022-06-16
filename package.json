@@ -19,7 +19,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nest start",
+    "build": "npx tsc",
     "build-and-run ": "npx tsc && npm start"
   },
   "keywords": [],
